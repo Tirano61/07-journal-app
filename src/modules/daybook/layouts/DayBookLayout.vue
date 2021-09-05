@@ -21,7 +21,6 @@
 import { defineAsyncComponent } from "@vue/runtime-core"
 
 
-
 export default ({
     components: {
         NavBar: defineAsyncComponent(() => import('../components/NavBar.vue') ),

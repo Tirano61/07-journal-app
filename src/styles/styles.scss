@@ -12,4 +12,10 @@ $theme-colors: (
     "dark":       #343a40,
   );
 
-@import 'node_modules/bootstrap/scss/bootstrap.scss'
+@import 'node_modules/bootstrap/scss/bootstrap.scss';
+
+
+
+.pointer{
+  cursor: pointer;
+}
