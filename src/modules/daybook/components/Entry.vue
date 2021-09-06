@@ -1,24 +1,54 @@
 
 <template>
     <div class="entry-container mb-3 pointer p-2" 
-    @click="$router.push( { name:'entry', params:{id: 10} } )">
+    @click="$router.push( { name:'entry', params:{id: entry.id} } )">
         <!-- Titulo -->
         <div class="entry-title d-flex">
-            <span class="text-success fs-5 fw-bold">03</span>
-            <span class="mx-1 fs-5">septiembre</span>
-            <span class="mx-1 fw-light">2021, viernes</span>
+            <span class="text-success fs-5 fw-bold">{{ day }}</span>
+            <span class="mx-1 fs-5">{{ month }}</span>
+            <span class="mx-1 fw-light">{{ yearDay }}</span>
         </div>
 
         <div class="entry-description">
-            Tempor ullamco nulla minim dolor cillum laborum sit. Reprehenderit irure commodo velit dolore enim sit minim incididunt fugiat dolor in excepteur excepteur. Do sunt qui veniam exercitation sit sunt quis elit nulla consectetur laboris dolor. Esse veniam officia excepteur aute et sint labore voluptate ea. Ut quis do ut aliqua culpa aute deserunt in labore nulla amet commodo aliqua. Velit enim ad eu laborum sunt enim sint consectetur proident dolor pariatur.
+            {{ shortText }}
         </div>
     
     </div>
 </template>
 
 <script>
-export default {
 
+const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio','Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
+const days   = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado']
+
+
+export default {
+    props: {
+        entry: {
+            type: Object,
+            required: true,
+
+        }
+    },
+    computed: {
+        shortText(){
+            return ( this.entry.text.length > 150)
+            ? this.entry.text.substring(0,150) + '...'
+            : this.entry.text
+        },
+        day(){
+            const date = new Date(this.entry.date)
+            return date.getDate()
+        },
+        month(){
+            const date = new Date(this.entry.date)
+            return months[date.getMonth()]
+        },
+        yearDay(){
+            const date = new Date(this.entry.date)
+            return `${ date.getFullYear() }`, `${ days[ date.getDay() ] }`
+        }
+    }
 }
 </script>
 
@@ -32,7 +62,7 @@ export default {
         transition: 0.2s all ease-in;
     }
     .entry-description{
-        font-size: 12px;
+        font-size: 14px;
     }
 }
 
