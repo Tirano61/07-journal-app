@@ -30,11 +30,11 @@ export const upDateEntries = async({ commit }, entries) =>{
     const { date, text }  = entries;
     const dataSave = { date, text };
 
-    const res = await journalApi.put(`/entries/${entries.id}.json`, dataSave);
+    await journalApi.put(`/entries/${entries.id}.json`, dataSave);
 
-    console.log(res)
+   
     //El spret sse hace que js no pase el objeto por referencia (puede pasar) {...entries}
-    commit();
+    commit('upDateEntries', {...entries});
 }
 
 export const createEntries = async(/*{ commit }*/) =>{

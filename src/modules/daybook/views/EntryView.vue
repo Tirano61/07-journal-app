@@ -87,21 +87,47 @@ export default {
     methods: {
         ...mapActions('journal', ['upDateEntries']),
         loadEntry(){
-           const entrada = this.getEntriesById( this.id)
+           let entrada;
            
-           if(!entrada)  this.$router.push({name: 'no-entry'})
+           if(this.id === 'new'){
+
+               entrada ={
+                   text: '',
+                   date: new Date().getTime()
+               }
+
+           }else{
+                entrada = this.getEntriesById( this.id)
+
+                if(!entrada) return this.$router.push({name: 'no-entry'})   
+           }
            
            this.entry = entrada 
+
         },
+
         async saveEntries(){
 
-            this.upDateEntries( this.entry)
+            if(this.entry.id ){
+
+                await this.upDateEntries( this.entry)
+
+            }else{
+                //Crear una nueva entrada
+                //await this.createEntries()
+            }
+
 
         },
     },
 
     created(){
         this.loadEntry()
+    },
+    watch: {
+        id() {
+            this.loadEntry()
+        }
     }
 }
 </script>

@@ -8,7 +8,7 @@
 
 
 export const getEntriesByTerm = ( state ) => ( term = '' ) => {
-    if ( term.length === 0 ) return state.entries
+    if ( term.length === 0 ) return state.entries;
 
     return state.entries.filter( ent => ent.text.toLowerCase().includes( term.toLocaleLowerCase() ) );
         
@@ -19,11 +19,11 @@ export const getEntriesByTerm = ( state ) => ( term = '' ) => {
 export const getEntriesById = ( state ) => ( id = '' ) =>{
    
     // console.log(state.entries)
-    const entry = state.entries.find(  ent => ent.id ==  id )
+    const entry = state.entries.find(  ent => ent.id === id);
 
-    if(!entry) return 
+    if(!entry) return; 
 
-    return { ...entry } //TODO: probar
+    return { ...entry }; //TODO: probar
 
     
 
