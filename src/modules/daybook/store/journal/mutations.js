@@ -21,8 +21,9 @@ export const upDateEntries = ( state, entry ) =>{
 
 }
 
-export const addEntries = ( /*state*/ ) =>{
+export const addEntries = ( state, entries ) =>{
     
+    state.entries = [ entries, ...state.entries ];
 }
 
 
