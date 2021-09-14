@@ -1,4 +1,3 @@
-
 import journalApi from "@/api/journalApi";
 
 // export const myAction = async({ commit }) =>{
@@ -8,44 +7,44 @@ import journalApi from "@/api/journalApi";
 
 
 
-export const loadEntries = async({ commit }) =>{
-    
+export const loadEntries = async({ commit }) => {
+
     const { data } = await journalApi.get('/entries.json');
-    if(!data){
+    if (!data) {
         commit('setEntries', []);
         return;
     }
     const entries = []
-    for(let id of Object.keys( data )){
-        
+    for (let id of Object.keys(data)) {
+
         entries.push({
             id,
             ...data[id]
         })
     }
 
-    commit('setEntries', entries )
+    commit('setEntries', entries)
 
 }
 
-export const upDateEntries = async({ commit }, entries) =>{
+export const upDateEntries = async({ commit }, entries) => {
 
-    const { date, text , picture }  = entries;
-    const dataSave = { date, text , picture };
+    const { date, text, picture } = entries;
+    const dataSave = { date, text, picture };
 
     await journalApi.put(`/entries/${entries.id}.json`, dataSave);
 
-   
-    //El spret sse hace que js no pase el objeto por referencia (puede pasar) {...entries}
-    commit('upDateEntries', {...entries});
+    dataSave.id = entries.id
+        //El spret sse hace que js no pase el objeto por referencia (puede pasar) {...entries}
+    commit('upDateEntries', {...dataSave });
 }
 
-export const createEntries = async({ commit }, entries) =>  {
+export const createEntries = async({ commit }, entries) => {
 
-    const { date, text , picture }  = entries;
+    const { date, text, picture } = entries;
     const dataSave = { date, text, picture };
     const { data } = await journalApi.post(`/entries.json`, dataSave);
-        
+
     dataSave.id = data.name;
 
     commit('addEntries', dataSave);
@@ -54,7 +53,7 @@ export const createEntries = async({ commit }, entries) =>  {
 
 }
 
-export const deleteEntry = async ({ commit }, id) => {
+export const deleteEntry = async({ commit }, id) => {
 
     await journalApi.delete(`/entries/${id}.json`);
 
@@ -63,14 +62,3 @@ export const deleteEntry = async ({ commit }, id) => {
     return id
 
 }
-
-
-
-
-
-
-
-
-
-
-
