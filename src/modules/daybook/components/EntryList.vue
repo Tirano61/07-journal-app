@@ -22,9 +22,7 @@
             :key="entry.id"
             :entry=entry />
         </div>
-
-        
-
+ 
     </div>
 </template>
 

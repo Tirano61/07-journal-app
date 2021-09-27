@@ -1,58 +1,61 @@
 
 
-<template>
-    <div class="entry-title d-flex justify-content-between p-2">
+<template >
+    <template v-if="entry">
+        <div   class="entry-title d-flex justify-content-between p-2">
 
-        <div>
-            <span class="text-success fs-3  fw-bold">{{ day }}</span>
-            <span class="mx-1 fs-3 ">{{ month }}</span>
-            <span class="mx-2 fs-4  fw-light">{{ yearDay }}</span>
+            <div>
+                <span class="text-success fs-3  fw-bold">{{ day }}</span>
+                <span class="mx-1 fs-3 ">{{ month }}</span>
+                <span class="mx-2 fs-4  fw-light">{{ yearDay }}</span>
+            </div>
+
+            <div>
+                <input type="file"
+                    @change="onSelectedImage"
+                    ref="imageSelector"
+                    v-show="false"
+                    accept="image/png, image/jpeg">
+                <button 
+                    v-if="entry.id"
+                    class="btn btn-danger mx-2"
+                    @click="deleteEntries">
+                    Borrar
+                    <i class="fa fa-trash-alt"></i>
+                </button>
+                <button class="btn btn-primary"
+                    @click="onSelectImage">
+                    Subir Foto
+                    <i class="fa fa-up-load"></i>
+                </button>
+            </div>
+            
         </div>
 
-        <div>
-            <input type="file"
-                @change="onSelectedImage"
-                ref="imageSelector"
-                v-show="false"
-                accept="image/png, image/jpeg">
-            <button 
-                v-if="entry.id"
-                class="btn btn-danger mx-2"
-                @click="deleteEntries">
-                Borrar
-                <i class="fa fa-trash-alt"></i>
-            </button>
-            <button class="btn btn-primary"
-                @click="onSelectImage">
-                Subir Foto
-                <i class="fa fa-up-load"></i>
-            </button>
+        <hr>
+
+        <div class="d-flex flex-column px-3 h-75">
+            <textarea 
+            v-model="entry.text"
+            placeholder="¿Que sucedió hoy?" ></textarea>
         </div>
-        
-    </div>
 
-    <hr>
+        <Fab 
+            icon="fa-save"
+            @on:Click="saveEntries"
+        />
 
-    <div class="d-flex flex-column px-3 h-75">
-        <textarea 
-        v-model="entry.text"
-        placeholder="¿Que sucedió hoy?" ></textarea>
-    </div>
+        <img v-if="entry.picture && !localImage" 
+            :src="entry.picture" 
+            alt="elefante"
+            class="img-thumbnail">
 
-    <Fab 
-        icon="fa-save"
-        @on:Click="saveEntries"
-    />
-
-    <img v-if="entry.picture && !localImage" 
-        :src="entry.picture" 
-        alt="elefante"
-        class="img-thumbnail">
-
-    <img v-if="localImage" 
-        :src="localImage" 
-        alt="elefante"
-        class="img-thumbnail">
+        <img v-if="localImage" 
+            :src="localImage" 
+            alt="elefante"
+            class="img-thumbnail">
+    </template>
+    
 
 </template>
 
@@ -62,7 +65,7 @@ import { mapActions, mapGetters } from 'vuex'
 
 import getDayMonthYear from "../helpers/getDayMonthYear";
 import Swal from 'sweetalert2'
-import uploadImage from '@/modules/daybook/helpers/uploadImage'
+import uploadImage from '../helpers/uploadImage'
 
 
 
@@ -107,29 +110,30 @@ export default {
 
     methods: {
         ...mapActions('journal', ['upDateEntries', 'createEntries', 'deleteEntry']),
+
         loadEntry(){
-           let entrada;
+           let entry;
            
            if(this.id === 'new'){
 
-               entrada ={
+               entry ={
                    text: '',
                    date: new Date().getTime()
                }
 
            }else{
-                entrada = this.getEntriesById( this.id)
+                entry = this.getEntriesById( this.id)
 
-                if(!entrada) return this.$router.push({name: 'no-entry'})   
+                if(!entry) return this.$router.push({name: 'no-entry'})   
            }
            
-           this.entry = entrada 
+           this.entry = entry 
 
         },
 
         async saveEntries(){
 
-            new Swal({
+            Swal.fire({
                 title: 'Espere por favor ...',
                 allowOutsideClick: false
             })
@@ -158,19 +162,22 @@ export default {
         },
 
         async deleteEntries(){
-            const result = await Swal.fire({
+           
+            const {isConfirmed} = await Swal.fire({
                 title: 'Está seguro',
                 text: 'Una vez borrado no se recuperará',
                 showDenyButton: true,
                 confirmButtonText: 'Si estoy seguro'
 
             })
-            if(result.isConfirmed){
-                new Swal({
+           
+            if(isConfirmed){
+                Swal.fire({
                     title: 'Espere por favor ...',
                     allowOutsideClick: false
                 })
                 Swal.showLoading()
+                console.log('A punto de eliminar')
                 await this.deleteEntry(this.entry.id)
                 this.$router.push({name: 'no-entry'})
 

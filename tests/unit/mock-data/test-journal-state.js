@@ -5,7 +5,7 @@ export const journalState = {
     entries: [
         {
             id: 'MjGzjLtqWG4wFQe4QWm',
-            date : 1631315731779,
+            date : 1627077227978,
             text : "Hola mundo desde mock-data"
         },
         {

@@ -18,10 +18,8 @@ describe('Pruebas en  Router Module', () => {
                     path: ':id',
                     name: 'entry',
                     component: expect.any(Function),
-                    
                     props: expect.any(Function),
                 }
-
             ]
         })
 

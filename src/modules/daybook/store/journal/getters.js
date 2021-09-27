@@ -19,11 +19,11 @@ export const getEntriesByTerm = ( state ) => ( term = '' ) => {
 export const getEntriesById = ( state ) => ( id = '' ) =>{
    
     // console.log(state.entries)
-    const entry = state.entries.find(  ent => ent.id === id);
+    const entry = state.entries.find(  ent => ent.id === id)
 
-    if(!entry) return; 
+    if(!entry) return 
 
-    return { ...entry }; //TODO: probar
+    return { ...entry } //TODO: probar
 
     
 
