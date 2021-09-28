@@ -38,8 +38,8 @@ describe("Pruebas en el Entry component ", () => {
 
     test("Pruebas en las propiedades commputadas", () => {
 
-        expect(wrapper.vm.day).toBe(10);
-        expect(wrapper.vm.month).toBe('Septiembre');
+        expect(wrapper.vm.day).toBe(23);
+        expect(wrapper.vm.month).toBe('Julio');
         expect(wrapper.vm.yearDay).toBe('Viernes');
     });
 });

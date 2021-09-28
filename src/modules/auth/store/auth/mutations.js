@@ -17,13 +17,14 @@ export const loginUser = ( state, { user, idToken,  refreshToken} ) => {
 
     state.user = user
     state.status = 'authenticated'
+    console.log(state.status)
 
 }
 
 export const logout = ( state ) => {
 
     state.user = null
-    state.idTken = null
+    state.idToken = null
     state.refreshToken = null
     state.status = 'not-authenticated'
 
