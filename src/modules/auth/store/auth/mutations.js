@@ -1,27 +1,20 @@
+export const loginUser = (state, { user, idToken, refreshToken }) => {
 
-
-
-
-
-
-export const loginUser = ( state, { user, idToken,  refreshToken} ) => {
-
-    if(idToken){
+    if (idToken) {
         localStorage.setItem('idToken', idToken)
         state.idToken = idToken
     }
-    if(refreshToken){
+    if (refreshToken) {
         localStorage.setItem('refreshToken', refreshToken)
         state.refreshToken = refreshToken
     }
 
     state.user = user
     state.status = 'authenticated'
-    console.log(state.status)
 
 }
 
-export const logout = ( state ) => {
+export const logout = (state) => {
 
     state.user = null
     state.idToken = null
